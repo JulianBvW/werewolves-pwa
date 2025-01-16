@@ -3,7 +3,7 @@ const resetData = async () => {
     // Clear localStorage
     localStorage.clear()
 
-    // Delete the "werewolves-cache" cache
+    // Delete the "werewolves-pwa-cache" cache
     const cacheName = 'werewolves-pwa-cache'
     const cacheExists = await caches.has(cacheName)
     if (cacheExists) {
