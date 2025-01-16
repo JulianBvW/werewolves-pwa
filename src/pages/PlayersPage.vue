@@ -37,24 +37,30 @@ onMounted(fetchPlayers)
 <template>
     <div>
         <Header :title="'Manage Players'" :backroute="'/'"></Header>
-        <div class="mt-10 h-screen w-screen bg-gray-200">
-            <button @click="$router.push('/player/-1')">new</button>
+        <div class="mt-10 h-screen w-screen">
             <div class="p-6">
-                <div class="grid grid-cols-4 gap-6">
+                <div class="grid grid-cols-3 gap-6">
+                    <div
+                        class="flex flex-col items-center text-center"
+                        @click="$router.push('/player/-1')">
+                        <div
+                            class="h-24 w-24 overflow-hidden rounded-full border-2 border-slate-600 p-[1px] text-7xl">
+                            <span class="text-slate-500">+</span>
+                        </div>
+                        <p class="mt-2 text-lg font-medium">New Player</p>
+                    </div>
                     <div
                         v-for="player in players"
                         :key="player.id"
-                        class="flex flex-col items-center text-center">
-                        <!-- Player photo -->
+                        class="flex flex-col items-center text-center"
+                        @click="$router.push('/player/' + player.id)">
                         <div
-                            class="h-24 w-24 overflow-hidden rounded-full border border-gray-300">
+                            class="h-24 w-24 overflow-hidden rounded-full border-2 border-slate-600">
                             <img
                                 :src="cachePhotos[player.id] || ''"
                                 alt="Player Photo"
                                 class="h-full w-full object-cover" />
                         </div>
-
-                        <!-- Player name -->
                         <p class="mt-2 text-lg font-medium">
                             {{ player.name }}
                         </p>
