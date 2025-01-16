@@ -6,7 +6,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
-const playerId = parseInt(route.params.id) // Extract player ID from route params
+const playerId = parseInt(route.params.id)
 
 const playerName = ref('')
 const photoPreview = ref('')
