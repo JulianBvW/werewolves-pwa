@@ -1,14 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import HelloWorld2 from './components/HelloWorld2.vue'
+import HomePage from './pages/HomePage.vue'
+import PlayersPage from './pages/PlayersPage.vue'
+import CardsPage from './pages/CardsPage.vue'
+import NewGamePage from './pages/NewGamePage.vue'
+import GamePage from './pages/GamePage.vue'
 
 const routes = [
-  { path: '/', component: HelloWorld },
-  { path: '/players', component: HelloWorld2 },
-  // { path: '/cards', component: CardManagementView },
-  // { path: '/new_game', component: NewGameSettingsView },
-  // { path: '/game', component: GameView },
-  // { path: '/settings', component: SettingsView },
+  { path: '/', component: HomePage },
+  { path: '/players', component: PlayersPage },
+  { path: '/cards', component: CardsPage },
+  { path: '/new-game', component: NewGamePage },
+  { path: '/game', component: GamePage }
 ]
 
 const router = createRouter({
