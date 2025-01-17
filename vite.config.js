@@ -16,8 +16,8 @@ export default defineConfig({
         short_name: 'Werewolves',
         start_url: '/',
         display: 'standalone',
-        background_color: '#42ff45',
-        theme_color: '#42b5f4',
+        background_color: '#ffffff',
+        theme_color: '#ffffff',
         icons: [
           {
             src: 'icon-192x192.png',
