@@ -38,6 +38,7 @@ const resetData = async () => {
             Cards
         </button>
         <button
+            v-if="false"
             @click="resetData"
             class="rounded-lg bg-red-500 px-6 py-3 font-semibold text-white hover:bg-red-600">
             RESET
