@@ -1,25 +1,15 @@
 <script setup>
-// import { ref, onMounted } from 'vue'
 import Header from '../components/Header.vue'
-
-// const players = ref([])
-
-// onMounted(() => {
-//     const storedPlayers = localStorage.getItem('players')
-//     players.value = storedPlayers ? JSON.parse(storedPlayers) : []
-// })
-
 import { ref, onMounted } from 'vue'
 
 const players = ref([])
 const cachePhotos = ref({})
 
-// Fetch players and their photos on component mount
 const fetchPlayers = async () => {
-    // Get players from localStorage
+    // Fetch players
     players.value = JSON.parse(localStorage.getItem('players') || '[]')
 
-    // Retrieve photos from the Cache API
+    // Fetch photos
     const cache = await caches.open('werewolves-pwa-cache')
     for (const player of players.value) {
         const cachedPhoto = await cache.match(`player/player-${player.id}`)
@@ -30,7 +20,6 @@ const fetchPlayers = async () => {
     }
 }
 
-// Fetch players when the component is mounted
 onMounted(fetchPlayers)
 </script>
 

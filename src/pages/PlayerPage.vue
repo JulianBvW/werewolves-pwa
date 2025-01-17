@@ -36,10 +36,7 @@ const savePhoto = async (id) => {
     await cache.put(`player/player-${id}`, response)
 }
 
-onMounted(async () => {
-    if (playerId < 0) {
-        return
-    }
+const fetchPlayer = async () => {
     const player = players.find((p) => p.id === playerId)
 
     if (!player) {
@@ -56,7 +53,7 @@ onMounted(async () => {
         const photoBlob = await cachedPhoto.blob()
         photoPreview.value = URL.createObjectURL(photoBlob)
     }
-})
+}
 
 const addPlayer = async () => {
     if (!playerName.value || !photoFile.value) {
@@ -107,6 +104,13 @@ const deletePlayer = async () => {
 
     router.push('/players')
 }
+
+onMounted(async () => {
+    if (playerId < 0) {
+        return
+    }
+    fetchPlayer()
+})
 </script>
 
 <template>
