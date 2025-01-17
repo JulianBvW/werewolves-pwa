@@ -84,7 +84,8 @@ const gameRoute = computed(() => {
         for (const _ of Array(cardsSelected[card.id]).keys()) {
             cardList.push(card.id)
         }
-    } // TODO RANDOMIZE
+    }
+    cardList = shuffle(cardList)
 
     const gameQuery = {
         playerList: encodeURIComponent(JSON.stringify(playerList)),
@@ -96,6 +97,15 @@ const gameRoute = computed(() => {
         query: gameQuery
     }
 })
+
+// Fisher-Yates Shuffle
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[arr[i], arr[j]] = [arr[j], arr[i]]
+    }
+    return arr
+}
 
 onMounted(async () => {
     fetchPlayers()
