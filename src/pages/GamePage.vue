@@ -13,6 +13,7 @@ const cachePhotosPlayers = ref({})
 
 const cards = ref([])
 const cachePhotosCards = ref({})
+const cardNames = reactive({})
 
 const cardShown = ref(null)
 const showIdentities = ref(false)
@@ -51,6 +52,10 @@ const fetchCards = async () => {
             const photoBlob = await cachedPhoto.blob()
             cachePhotosCards.value[card.id] = URL.createObjectURL(photoBlob)
         }
+    }
+
+    for (const card of cards.value) {
+        cardNames[card.id] = card.name
     }
 }
 
@@ -105,11 +110,14 @@ onMounted(async () => {
         </div>
         <div v-if="cardShown" @click="cardShown = null">
             <div
-                class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black bg-opacity-70">
                 <img
                     :src="cachePhotosCards[cardShown] || ''"
                     alt="Player Photo"
                     class="size-72 rounded-2xl border-8 border-slate-800 object-cover" />
+                <span class="mt-4 text-4xl font-semibold text-slate-200">{{
+                    cardNames[cardShown]
+                }}</span>
             </div>
         </div>
     </div>
