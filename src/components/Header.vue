@@ -1,5 +1,5 @@
 <script setup>
-const props = defineProps(['title', 'backroute'])
+const props = defineProps(['title', 'backroute', 'actionroute'])
 </script>
 
 <template>
@@ -14,7 +14,15 @@ const props = defineProps(['title', 'backroute'])
         <div class="col-span-8 text-center text-2xl font-semibold">
             {{ props.title }}
         </div>
-        <div class="col-span-2"></div>
+        <div
+            v-if="props.actionroute"
+            class="col-span-2 ml-auto mr-1 self-center">
+            <img
+                src="../assets/play.svg"
+                alt="Back"
+                class="svg-slate size-5 scale-y-110"
+                @click="$router.push(props.actionroute)" />
+        </div>
     </div>
 </template>
 

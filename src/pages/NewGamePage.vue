@@ -10,17 +10,14 @@ const cachePhotosCards = ref({})
 
 const playersSelected = reactive({})
 const cardsSelected = reactive({})
-
+const playerCount = computed(() => {
+    return players.value.reduce((acc, v) => acc + playersSelected[v.id] * 1, 0)
+})
+const cardCount = computed(() => {
+    return cards.value.reduce((acc, v) => acc + cardsSelected[v.id], 0)
+})
 const correctNumberOfCards = computed(() => {
-    const playerCount = players.value.reduce(
-        (acc, v) => acc + playersSelected[v.id] * 1,
-        0
-    )
-    const cardCount = cards.value.reduce(
-        (acc, v) => acc + cardsSelected[v.id],
-        0
-    )
-    return playerCount === cardCount
+    return playerCount.value === cardCount.value
 })
 
 const fetchPlayers = async () => {
@@ -74,6 +71,32 @@ function selectAll() {
     }
 }
 
+const gameRoute = computed(() => {
+    let playerList = []
+    for (const player of players.value) {
+        if (playersSelected[player.id]) {
+            playerList.push(player.id)
+        }
+    }
+
+    let cardList = []
+    for (const card of cards.value) {
+        for (const _ of Array(cardsSelected[card.id]).keys()) {
+            cardList.push(card.id)
+        }
+    } // TODO RANDOMIZE
+
+    const gameQuery = {
+        playerList: encodeURIComponent(JSON.stringify(playerList)),
+        cardList: encodeURIComponent(JSON.stringify(cardList))
+    }
+
+    return {
+        path: '/game',
+        query: gameQuery
+    }
+})
+
 onMounted(async () => {
     fetchPlayers()
     fetchCards()
@@ -82,7 +105,12 @@ onMounted(async () => {
 
 <template>
     <div>
-        <Header :title="'New Game'" :backroute="'/'"></Header>
+        <Header
+            :title="'New Game'"
+            :backroute="'/'"
+            :actionroute="
+                playerCount > 0 && correctNumberOfCards ? gameRoute : ''
+            "></Header>
         <div class="h-screen w-screen pt-20">
             <!-- Select Players-->
             <div class="p-6">
