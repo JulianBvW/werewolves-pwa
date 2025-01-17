@@ -1,6 +1,6 @@
 <script setup>
 import Header from '../components/Header.vue'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 
 const players = ref([])
 const cachePhotosPlayers = ref({})
@@ -9,6 +9,19 @@ const cards = ref([])
 const cachePhotosCards = ref({})
 
 const playersSelected = reactive({})
+const cardsSelected = reactive({})
+
+const correctNumberOfCards = computed(() => {
+    const playerCount = players.value.reduce(
+        (acc, v) => acc + playersSelected[v.id] * 1,
+        0
+    )
+    const cardCount = cards.value.reduce(
+        (acc, v) => acc + cardsSelected[v.id],
+        0
+    )
+    return playerCount === cardCount
+})
 
 const fetchPlayers = async () => {
     // Fetch players
@@ -43,15 +56,18 @@ const fetchCards = async () => {
             cachePhotosCards.value[card.id] = URL.createObjectURL(photoBlob)
         }
     }
+
+    // Set default card selection
+    for (const card of cards.value) {
+        cardsSelected[card.id] = 0
+    }
 }
 
 function selectAll() {
-    let someSelected = false
-    for (const player of players.value) {
-        if (playersSelected[player.id]) {
-            someSelected = true
-        }
-    }
+    const someSelected = players.value.reduce(
+        (acc, v) => acc || playersSelected[v.id],
+        false
+    )
 
     for (const player of players.value) {
         playersSelected[player.id] = !someSelected
@@ -67,7 +83,7 @@ onMounted(async () => {
 <template>
     <div>
         <Header :title="'New Game'" :backroute="'/'"></Header>
-        <div class="mt-10 h-screen w-screen">
+        <div class="h-screen w-screen pt-20">
             <!-- Select Players-->
             <div class="p-6">
                 <span
@@ -88,7 +104,7 @@ onMounted(async () => {
                                 !playersSelected[player.id]
                         ">
                         <div
-                            class="h-20 w-20 overflow-hidden rounded-full border-2 border-slate-600">
+                            class="size-20 overflow-hidden rounded-full border-2 border-slate-600">
                             <img
                                 :src="cachePhotosPlayers[player.id] || ''"
                                 alt="Player Photo"
@@ -96,9 +112,9 @@ onMounted(async () => {
                         </div>
                         <p
                             :class="
-                                'mt-1 text-lg font-medium' +
+                                'mt-1 text-lg' +
                                 (playersSelected[player.id]
-                                    ? ' text-green-500'
+                                    ? ' font-semibold text-green-500'
                                     : '')
                             ">
                             {{ player.name }}
@@ -119,15 +135,44 @@ onMounted(async () => {
                         class="flex flex-row items-center text-center">
                         <div class="flex flex-col">
                             <div
-                                class="h-[4.5rem] w-[4.5rem] overflow-hidden rounded-xl border-2 border-slate-600">
+                                class="size-[4.5rem] overflow-hidden rounded-xl border-2 border-slate-600">
                                 <img
                                     :src="cachePhotosCards[card.id] || ''"
                                     alt="Card Photo"
                                     class="h-full w-full object-cover" />
                             </div>
-                            <p class="mt-0 text-lg font-medium">
+                            <p class="text-lg font-medium">
                                 {{ card.name }}
                             </p>
+                        </div>
+                        <div
+                            class="bg-sgreen-500 ml-4 flex h-full w-full flex-row justify-center gap-2">
+                            <div
+                                class="mt-4 size-14 overflow-hidden rounded-full border-2 border-slate-600 text-4xl leading-[2.7rem]"
+                                @click="
+                                    cardsSelected[card.id] = Math.max(
+                                        0,
+                                        cardsSelected[card.id] - 1
+                                    )
+                                ">
+                                <span class="text-slate-600">-</span>
+                            </div>
+                            <div
+                                class="mt-6 size-14 min-w-20 overflow-hidden text-4xl font-semibold">
+                                <span
+                                    :class="
+                                        correctNumberOfCards
+                                            ? 'text-slate-500'
+                                            : 'text-red-600'
+                                    "
+                                    >{{ cardsSelected[card.id] }}</span
+                                >
+                            </div>
+                            <div
+                                class="mt-4 size-14 overflow-hidden rounded-full border-2 border-slate-600 text-4xl leading-[2.7rem]"
+                                @click="cardsSelected[card.id]++">
+                                <span class="text-slate-600">+</span>
+                            </div>
                         </div>
                     </div>
                 </div>
