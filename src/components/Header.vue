@@ -3,7 +3,7 @@ const props = defineProps(['title', 'backroute'])
 </script>
 
 <template>
-    <div class="absolut grid grid-cols-12 p-4">
+    <div class="fixed z-10 grid w-screen grid-cols-12 bg-white p-4">
         <div class="col-span-2 self-center">
             <img
                 src="../assets/back.svg"

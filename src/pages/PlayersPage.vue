@@ -26,7 +26,7 @@ onMounted(fetchPlayers)
 <template>
     <div>
         <Header :title="'Manage Players'" :backroute="'/'"></Header>
-        <div class="mt-10 h-screen w-screen">
+        <div class="h-screen w-screen pt-20">
             <div class="p-6">
                 <div class="grid grid-cols-3 gap-6">
                     <div

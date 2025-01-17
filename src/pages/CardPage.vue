@@ -117,7 +117,7 @@ onMounted(async () => {
 <template>
     <div>
         <Header :title="title" :backroute="'/cards'"></Header>
-        <div class="mt-20 h-screen w-screen p-10">
+        <div class="h-screen w-screen p-10 pt-60">
             <!-- Input for card name -->
             <input
                 v-model="cardName"
