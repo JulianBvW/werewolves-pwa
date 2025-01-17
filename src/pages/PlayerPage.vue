@@ -139,7 +139,7 @@ onMounted(async () => {
                 </label>
                 <div
                     v-if="photoPreview"
-                    class="h-32 w-32 overflow-hidden rounded-full border border-gray-300">
+                    class="h-32 w-32 overflow-hidden rounded-full border-2 border-slate-600">
                     <img
                         :src="photoPreview"
                         alt="Player Preview"
